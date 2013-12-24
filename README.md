@@ -22,7 +22,8 @@ And:
 * [Hateoas](https://github.com/willdurand/Hateoas);
 * [Negotiation](https://github.com/willdurand/Negotiation);
 * [StackNegotiation](https://github.com/willdurand/StackNegotiation);
-* [Stack](http://stackphp.com).
+* [Stack](http://stackphp.com);
+* [TemplatedUriRouter](https://github.com/hautelook/TemplatedUriRouter).
 
 
 Installation
@@ -281,7 +282,7 @@ Both error messages or application's messages are translated depending on the
 `Accept-Language` header. In order to implement this, you need to use the
 [StackNegotiation](https//github.com/willdurand/StackNegotiation) middleware,
 and a [Silex application's **before**
-middleware](https://github.com/willdurand/Propilex/blob/master/app/config/config.php#L61-L78).
+middleware](https://github.com/willdurand/Propilex/blob/master/app/config/config.php#L69-L86).
 
 You will get an error message if you try to get an unknown document:
 

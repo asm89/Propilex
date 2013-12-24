@@ -33,7 +33,10 @@ class DocumentController
         $documents = $app['hateoas.pagerfanta_factory']->create(
             $pager,
             'document_list', [],
-            new CollectionRepresentation($results, 'documents'),
+            new CollectionRepresentation(
+                $results,
+                "expr(curies_prefix ~ ':documents')"
+            ),
             true
         );
 

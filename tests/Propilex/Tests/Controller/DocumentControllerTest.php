@@ -40,8 +40,8 @@ class DocumentRestControllerTest extends WebTestCase
         $this->assertArrayHasKey('pages', $data);
         $this->assertArrayHasKey('limit', $data);
 
-        $this->assertArrayHasKey('documents', $data['_embedded']);
-        $documents = $data['_embedded']['documents'];
+        $this->assertArrayHasKey('p:documents', $data['_embedded']);
+        $documents = $data['_embedded']['p:documents'];
 
         $this->assertCount(3, $documents);
         $this->assertEquals(1, $data['page']);
@@ -57,6 +57,18 @@ class DocumentRestControllerTest extends WebTestCase
         $this->assertTrue($response->headers->hasCacheControlDirective('public'));
         $this->assertFalse($response->headers->has('Last-Modified'));
         $this->assertTrue($response->headers->has('ETag'));
+
+        // links
+        $links = $data['_links'];
+        $this->assertArrayHasKey('self', $links);
+        $this->assertArrayHasKey('curies', $links);
+        $this->assertArrayHasKey('first', $links);
+        $this->assertArrayHasKey('last', $links);
+        $this->assertArrayNotHasKey('next', $links);
+        $this->assertArrayNotHasKey('previous', $links);
+
+        $this->assertEquals('p', $links['curies'][0]['name']);
+        $this->assertEquals('http://localhost/rels/{rel}', $links['curies'][0]['href']);
     }
 
     public function testListDocumentsIsPaginated()
@@ -74,8 +86,8 @@ class DocumentRestControllerTest extends WebTestCase
         $this->assertArrayHasKey('pages', $data);
         $this->assertArrayHasKey('limit', $data);
 
-        $this->assertArrayHasKey('documents', $data['_embedded']);
-        $documents = $data['_embedded']['documents'];
+        $this->assertArrayHasKey('p:documents', $data['_embedded']);
+        $documents = $data['_embedded']['p:documents'];
 
         $this->assertCount(1, $documents);
         $this->assertEquals(1, $data['page']);
@@ -83,6 +95,18 @@ class DocumentRestControllerTest extends WebTestCase
         $this->assertEquals(1, $data['limit']);
 
         $this->assertValidDocument(current($documents));
+
+        // links
+        $links = $data['_links'];
+        $this->assertArrayHasKey('self', $links);
+        $this->assertArrayHasKey('curies', $links);
+        $this->assertArrayHasKey('first', $links);
+        $this->assertArrayHasKey('last', $links);
+        $this->assertArrayHasKey('next', $links);
+        $this->assertArrayNotHasKey('previous', $links);
+
+        $this->assertEquals('p', $links['curies'][0]['name']);
+        $this->assertEquals('http://localhost/rels/{rel}', $links['curies'][0]['href']);
     }
 
     public function testGetDocument()
